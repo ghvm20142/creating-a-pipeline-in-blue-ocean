@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh '''npm config set registry https://registry.npm.taobao.org
+        sh '''npm config set registry http://registry.npm.taobao.org
 npm install'''
       }
     }
@@ -20,6 +20,14 @@ npm install'''
       }
       steps {
         sh './jenkins/scripts/test.sh'
+      }
+    }
+
+    stage('Deliver') {
+      steps {
+        sh '''./jenkins/scripts/deliver.sh
+./jenkins/scripts/kill.sh'''
+        input 'Finished using the web site? (Click "Proceed" to continue)'
       }
     }
 
